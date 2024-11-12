@@ -12,3 +12,6 @@
 - Хук useEffect
 - Условный рендер
 - Работа с Api
+
+
+![guest-list](https://github.com/user-attachments/assets/c132160d-a6ef-4f84-b930-f6b5259b14b7)
