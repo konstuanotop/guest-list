@@ -1,35 +1,24 @@
-import { Dispatch, SetStateAction } from 'react';
 import plus from '../../assets/img/icon_plus.png'
 import minus from '../../assets/img/icon_minus.png'
-import { UsersArr } from '../../types'
+import { UserType } from '../../types'
 import styles from './Users.module.scss'
 
 interface UsersProps {
-    usersArr: UsersArr[];
+    users: UserType[];
     value: string;
-    setValue: Dispatch<SetStateAction<string>>;
-    added: UsersArr[];
-    setAdded: Dispatch<SetStateAction<UsersArr[]>>
-    setOpenResult: Dispatch<SetStateAction<boolean>>;
+    onSearchChange: (value: string) => void;
+    added: UserType[];
+    onToggleUser: (user: UserType) => void;
+    onSendInvitation: () => void;
 }
 
-const Users: React.FC<UsersProps> = ({ usersArr, value, setValue, added, setAdded, setOpenResult }) => {
+const Users: React.FC<UsersProps> = ({ users, value, onSearchChange, added, onToggleUser, onSendInvitation }) => {
 
-    // При нажатии на кнопку "добавить" надо:
-    // 1) Изменить картинку с + на - или наоборот, если чел уже был добавлен
-    // 2) Добавить в useState added чела или удалить, если он уже добавлен
-
-    const handleToggleClick = (user: UsersArr) => {
-        setAdded(((prev) => {
-            if (prev.some(u => u.id === user.id)) {
-                return prev.filter(u => u.id !== user.id)
-            } else {
-                return [...prev, user]
-            }
-        }))
+    const handleToggleClick = (user: UserType) => {
+        onToggleUser(user)
     }
 
-    const isUserAdded = (user: UsersArr) => {
+    const isUserAdded = (user: UserType) => {
         return added.some(u => u.id === user.id)
     }
 
@@ -40,13 +29,13 @@ const Users: React.FC<UsersProps> = ({ usersArr, value, setValue, added, setAdde
                     className={styles.Users__block_input}
                     placeholder='Найти пользователя'
                     value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={(e) => onSearchChange(e.target.value)}
                 />
                 <ul className={styles.Users__block_items}>
 
                     {
-                        usersArr
-                            .filter((user, i) => {
+                        users
+                            .filter((user) => {
                                 const name = user.first_name.toLowerCase() + ' ' + user.last_name.toLowerCase();
                                 return name.includes(value.toLowerCase()) || user.email.includes(value.toLowerCase())
                             })
@@ -76,7 +65,7 @@ const Users: React.FC<UsersProps> = ({ usersArr, value, setValue, added, setAdde
                 </ul>
                 <button
                     className={styles.Users__block_btn}
-                    onClick={() => setOpenResult(true)}
+                    onClick={onSendInvitation}
                 >Отправить приглашение</button>
             </div>
         </div>

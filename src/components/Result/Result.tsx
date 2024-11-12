@@ -1,13 +1,11 @@
-import { Dispatch, SetStateAction } from 'react';
-import { UsersArr } from '../../types';
+import { UserType } from '../../types';
 import styles from './Result.module.scss'
 
 interface ResultProps {
-    added: UsersArr[];
-    setOpenResult: Dispatch<SetStateAction<boolean>>;
+    added: UserType[];
 }
 
-const Result: React.FC<ResultProps> = ({ added, setOpenResult }) => {
+const Result: React.FC<ResultProps> = ({ added }) => {
     return (
         <div className={styles.Result}>
             <div className={styles.Result__block}>
